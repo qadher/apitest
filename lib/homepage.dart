@@ -8,7 +8,7 @@ import 'cartpage.dart';
 import 'model/quotesmodel.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key? key}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -38,6 +38,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    bool showtextfield = false;
     //TabController _tabcontroller = TabController(length: 5, vsync: this)
     return Scaffold(
       backgroundColor: Colors.white,
@@ -59,7 +60,10 @@ class _HomePageState extends State<HomePage> {
                                 child: Container(
                                   padding: EdgeInsets.all(10),
                                   child: TextButton(
-                                    child: Text("${snapshot.data!.cartcount}"),
+                                    child: Icon(
+                                      Icons.shopping_cart_outlined,
+                                      color: Colors.white,
+                                    ),
                                     onPressed: () {
                                       setState(() {});
                                       Navigator.push(
@@ -256,151 +260,83 @@ class _HomePageState extends State<HomePage> {
                                                           )
                                                         ],
                                                       ),
-                                                      trailing: ElevatedButton(
-                                                          onPressed: () {
-                                                            if (snapshot
-                                                                    .data!
-                                                                    .products![
-                                                                        index]
-                                                                    .hasUnits ==
-                                                                0) {
-                                                              setState(() {
-                                                                Container(
-                                                                  decoration:
-                                                                      BoxDecoration(
-                                                                    border: Border.all(
-                                                                        width:
-                                                                            1,
-                                                                        color: Colors
-                                                                            .grey),
-                                                                  ),
-                                                                  width: 70,
-                                                                  height: 30,
-                                                                  child:
-                                                                      Padding(
-                                                                    padding: const EdgeInsets
-                                                                            .only(
-                                                                        right:
-                                                                            0),
-                                                                    child: Row(
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .spaceEvenly,
-                                                                      children: [
-                                                                        SizedBox(
-                                                                          width:
-                                                                              28,
-                                                                          child: IconButton(
-                                                                              onPressed: () {
-                                                                                if (items <= 0) {
-                                                                                  items = 0;
-                                                                                } else {
-                                                                                  minusitems();
-                                                                                }
-                                                                              },
-                                                                              icon: FaIcon(
-                                                                                FontAwesomeIcons.circleMinus,
-                                                                                size: 15,
-                                                                                color: Colors.black,
-                                                                              )),
-                                                                        ),
-                                                                        Text(
-                                                                            "$items"),
-                                                                        SizedBox(
-                                                                          width:
-                                                                              25,
-                                                                          child: IconButton(
-                                                                              onPressed: () {
-                                                                                additems();
-                                                                              },
-                                                                              // icon: Icon(Icons.add)
-                                                                              icon: FaIcon(
-                                                                                FontAwesomeIcons.circlePlus,
-                                                                                size: 15,
-                                                                                color: Colors.black,
-                                                                              )),
-                                                                        ),
-                                                                      ],
-                                                                    ),
-                                                                  ),
-                                                                );
-                                                              });
-                                                            } else {
-                                                              showModalBottomSheet(
-                                                                context:
-                                                                    context,
-                                                                shape:
-                                                                    RoundedRectangleBorder(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .vertical(
-                                                                    top: Radius
-                                                                        .circular(
-                                                                            20),
-                                                                  ),
-                                                                ),
-                                                                clipBehavior: Clip
-                                                                    .antiAliasWithSaveLayer,
-                                                                builder:
-                                                                    (BuildContext
-                                                                        context) {
-                                                                  return Container(
-                                                                    color: Colors
-                                                                        .white,
-                                                                    height: 200,
-                                                                    child:
-                                                                        Center(
-                                                                      child:
-                                                                          Column(
-                                                                        mainAxisAlignment:
-                                                                            MainAxisAlignment.start,
-                                                                        // mainAxisSize: MainAxisSize.min,
-                                                                        children: [
-                                                                          SizedBox(
-                                                                            height:
-                                                                                10,
-                                                                          ),
-                                                                          Text(
-                                                                            "Select Quantity",
-                                                                            style:
-                                                                                TextStyle(fontWeight: FontWeight.bold),
-                                                                          ),
-                                                                          SizedBox(
-                                                                            height:
-                                                                                20,
-                                                                          ),
-                                                                          ListView.builder(
-                                                                              shrinkWrap: true,
-                                                                              itemCount: snapshot.data!.products![index].units!.length,
-                                                                              itemBuilder: (context, index) {
-                                                                                return Container(
-                                                                                  decoration: BoxDecoration(color: Colors.grey[300], borderRadius: BorderRadius.circular(5)),
-                                                                                  width: 300,
-                                                                                  height: 40,
-                                                                                  child: Row(
-                                                                                    children: [
-                                                                                      Spacer(),
-                                                                                      Text(
-                                                                                        "${snapshot.data!.products![index].units![index].name}",
-                                                                                        style: TextStyle(fontWeight: FontWeight.bold),
-                                                                                      ),
-                                                                                      SizedBox(
-                                                                                        width: 50,
-                                                                                      ),
-                                                                                    ],
-                                                                                  ),
-                                                                                );
-                                                                              }),
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                  );
-                                                                },
-                                                              );
-                                                            }
+                                                      trailing: InkWell(
+                                                          onTap: () {
+                                                            setState(() {
+                                                              showtextfield =
+                                                                  true;
+                                                            });
                                                           },
-                                                          child: Text(
-                                                              "add to cart")),
+                                                          child:
+                                                              showtextfield ==
+                                                                      true
+                                                                  ? Container(
+                                                                      decoration:
+                                                                          BoxDecoration(
+                                                                        border: Border.all(
+                                                                            width:
+                                                                                1,
+                                                                            color:
+                                                                                Colors.grey),
+                                                                      ),
+                                                                      width: 70,
+                                                                      height:
+                                                                          30,
+                                                                      child:
+                                                                          Padding(
+                                                                        padding:
+                                                                            const EdgeInsets.only(right: 0),
+                                                                        child:
+                                                                            Row(
+                                                                          mainAxisAlignment:
+                                                                              MainAxisAlignment.spaceEvenly,
+                                                                          children: [
+                                                                            SizedBox(
+                                                                              width: 28,
+                                                                              child: IconButton(
+                                                                                  onPressed: () {
+                                                                                    if (items <= 0) {
+                                                                                      items = 0;
+                                                                                    } else {
+                                                                                      minusitems();
+                                                                                    }
+                                                                                  },
+                                                                                  icon: FaIcon(
+                                                                                    FontAwesomeIcons.circleMinus,
+                                                                                    size: 15,
+                                                                                    color: Colors.black,
+                                                                                  )),
+                                                                            ),
+                                                                            Text("$items"),
+                                                                            SizedBox(
+                                                                              width: 25,
+                                                                              child: IconButton(
+                                                                                  onPressed: () {
+                                                                                    additems();
+                                                                                  },
+                                                                                  // icon: Icon(Icons.add)
+                                                                                  icon: FaIcon(
+                                                                                    FontAwesomeIcons.circlePlus,
+                                                                                    size: 15,
+                                                                                    color: Colors.black,
+                                                                                  )),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    )
+                                                                  : Container(
+                                                                      height:
+                                                                          30,
+                                                                      width: 90,
+                                                                      color: Colors
+                                                                          .blue,
+                                                                      child:
+                                                                          Center(
+                                                                        child: Text(
+                                                                            "add to cart"),
+                                                                      ),
+                                                                    )),
 
                                                       // trailing: Container(
                                                       //   decoration:
